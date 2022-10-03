@@ -9,10 +9,14 @@ import 'CRUD/update.dart';
 import 'Dart:io';
 import 'generated/objectbox.g.dart';
 
+// В целом, мне понрвилось, но есть некоторые моменты, которые нужно отметить
+// В каждом действии CRUD у тебя открывается и закрывается база данных (Box), соответсвенно параллельные операции невозможны,
+// в идеале главный поток обрабатывает ввод пользовательсикй (а лучше просто вызывать в коде функции, и не более) а внутри потока с БД никаких stdin не будет
+
 Future<void> main() async {
   print(Isolate.current.debugName);
   String? choice;
-  while (true){
+  while (true) {
     print('\nИз какого изолята работаем?');
     print('1. createIsolate');
     print('2. optionalIsolate');
@@ -88,6 +92,7 @@ void workingWithDB(SendPort port) {
             break;
           case '0':
             break;
+          // Незащищённый switch без default
         }
         break;
       case '5':
